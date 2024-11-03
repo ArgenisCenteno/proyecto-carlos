@@ -10,6 +10,7 @@ use App\Models\Proveedor;
 use App\Models\SubCategoria;
 use App\Models\User;
 use App\Models\Venta;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -32,8 +33,9 @@ class HomeController extends Controller
     public function index()
     {
         
-        $ventas = Venta::count();
-        $compras = Compra::count();
+        $ventas = Venta::whereDate('created_at', Carbon::today())->count();
+
+        $compras = Compra::whereDate('created_at', Carbon::today())->count();
         $usuarios = User::count();
         $productos = Producto::count();
         $categorias = Categoria::count();

@@ -238,7 +238,7 @@
     width: 100%;
     height: 100%;
     object-fit: cover; /* Ajusta la imagen al contenedor */
-    opacity: 0.4; /* Aplica la opacidad */
+    
   }
   .row {
     position: relative; /* Asegura que el contenido esté por encima de la imagen */
@@ -250,25 +250,25 @@
 <section id="hero" class="hero section dark-background">
   <div class="container">
     <div class="hero-bg">
-      <img src="{{asset('imagenes/banner.jpg')}}" alt="banner">
+      {{--<img src="{{asset('imagenes/banner.jpg')}}" alt="banner"> --}}
     </div>
     <div class="row gy-4">
       <div class="col-lg-6 order-2 order-lg-1 d-flex flex-column justify-content-center" data-aos="zoom-out">
         <h1>¡Siempre a la orden!</h1>
-        <p>Más de 20 años atendiendo al público y ofreciendo productos de calidad, a precios asequibles</p>
+        <p >Más de 20 años atendiendo al público y ofreciendo productos de calidad, a precios asequibles</p>
         <div class="d-flex">
          
         </div>
       </div>
-      <div class="col-lg-6 order-1 order-lg-2 hero-img" data-aos="zoom-out" data-aos-delay="200">
-        <img src="{{asset('imagenes/hero-img.png')}}" class="img-fluid animated" alt="">
+      <div class="col-lg-6 order-1s orders-lg-2 hero-imgg"  style="opacity: 80%; ">
+       <img src="{{asset('imagenes/banner.jpg')}}" style="box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;" class="img-fluids animatesd" alt="">
       </div>
     </div>
   </div>
 </section><!-- /Hero Section -->
 
 <!-- Services Section -->
-<section id="services" class="services section light-background">
+<section id="services" class="services section light-background mt-4 mb-4">
 
   <!-- Section Title -->
   <div class="container section-title" data-aos="fade-up">

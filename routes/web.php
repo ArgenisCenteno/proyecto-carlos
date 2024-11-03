@@ -39,7 +39,7 @@ Route::post('/carrito/actualizar', [CarritoController::class, 'actualizarCarrito
 Route::get('/category/{id}', [CarritoController::class, 'productosPorCategoria'])->name('productosPorCategoria');
 
 
-
+  
 Route::middleware(['auth'])->group(function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
@@ -76,6 +76,8 @@ Route::get('compras/export', function () {
 Route::resource('cajas', App\Http\Controllers\CajaController::class);
 Route::get('/aperturar/{id}', [CajaController::class, 'aperturarCaja'])->name('cajas.aperturar');
 Route::post('/registrarApertura/{id}', [CajaController::class, 'registrarApertura'])->name('cajas.registrarApertura');
+Route::post('/notificaciones/{id}/marcar-como-leida', [NotificacionController::class, 'markAsRead'])->name('notificaciones.markAsRead');
+Route::post('/notificaciones/marcar-todas-leidas', [NotificacionController::class, 'markAllAsRead'])->name('notificaciones.markAllAsRead');
 
 /* VENTAS */
 Route::resource('ventas', App\Http\Controllers\VentaController::class);

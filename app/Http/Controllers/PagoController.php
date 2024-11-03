@@ -10,6 +10,7 @@ use App\Models\Tasa;
 use App\Models\Transaccion;
 use App\Models\User;
 use App\Models\Venta;
+use App\Notifications\SaleNotification;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
@@ -25,7 +26,13 @@ class PagoController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = Pago::with(['user', 'compras', 'ventas'])->get();
+
+            if (Auth::user()->hasRole('superAdmin') || (Auth::user()->hasRole('empleado'))) {
+                $data = Pago::with(['user', 'compras', 'ventas'])->get();
+            } else {
+                $data = Pago::with(['user', 'compras', 'ventas'])->where('user_id', Auth::user()->id)->get();
+            }
+
 
 
             return DataTables::of($data)
@@ -54,14 +61,21 @@ class PagoController extends Controller
                     $viewUrl = route('pagos.edit', $row->id);
                     $deleteUrl = route('pagos.destroy', $row->id);
                     $pdfUrl = route('pagos.pdf', $row->id); // Asegúrate de que la ruta esté correcta
-                    return '<a href="' . $viewUrl . '" class="btn btn-info btn-sm">Detalles</a>
-                            <a href="' . $pdfUrl . '" class="btn btn-success btn-sm" target="_blank">Recibo</a>
-                           <form action="' . $deleteUrl . '"  method="POST" style="display:inline; " class="btn-delete">
-                            ' . csrf_field() . '
-                            ' . method_field('DELETE') . '
-                            <button type="submit" class="btn btn-danger btn-sm " >Eliminar</button>
-                        </form>';
+    
+                    $actions = '<a href="' . $viewUrl . '" class="btn btn-info btn-sm">Detalles</a>
+                                <a href="' . $pdfUrl . '" class="btn btn-success btn-sm" target="_blank">Recibo</a>';
+
+                    if (Auth::user()->hasRole('superAdmin')) {
+                        $actions .= '<form action="' . $deleteUrl . '" method="POST" style="display:inline;" class="btn-delete">
+                                        ' . csrf_field() . '
+                                        ' . method_field('DELETE') . '
+                                        <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                                    </form>';
+                    }
+
+                    return $actions;
                 })
+
                 ->rawColumns(['status', 'actions'])
                 ->make(true);
         }
@@ -112,12 +126,13 @@ class PagoController extends Controller
             'status' => 'required|string|max:255',
         ]);
 
-        $pago = Pago::findOrFail($id); // Find the payment by ID
-        $pago->status = $request->status; // Update the status
-        $pago->save(); // Save the changes
-
+        $pago = Pago::findOrFail($id);
         $venta = Venta::where('pago_id', $id)->first();
         $recibo = Recibo::where('pago_id', $id)->first();
+        $previousStatus = $pago->status; // Guardar el estado anterior
+
+        $pago->status = $request->status;
+        $pago->save();
 
         if (($request->status == 'Pagado' || $request->status == 'Rechazado') && $pago->tipo == 'Venta') {
             $venta->status = $request->status;
@@ -127,9 +142,15 @@ class PagoController extends Controller
             $recibo->save();
         }
 
-        Alert::success('¡Exito!', 'Pago actualizado exitosamente')->showConfirmButton('Aceptar', 'rgba(79, 59, 228, 1)');
+        // Enviar notificación solo si el estado cambia de 'Pendiente' a 'Pagado' o 'Rechazado'
+        if ($previousStatus == 'Pendiente' && ($request->status == 'Pagado' || $request->status == 'Rechazado')) {
+            $pago->user->notify(new \App\Notifications\PagoStatusUpdated($pago, $request->status));
+        }
+
+        Alert::success('¡Éxito!', 'Pago actualizado exitosamente')->showConfirmButton('Aceptar', 'rgba(79, 59, 228, 1)');
         return redirect(route('pagos.index'));
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -159,16 +180,22 @@ class PagoController extends Controller
 
         if (count($carrito) > 0) {
             foreach ($carrito as $c) {
+                $consulta = Producto::find($c['id']);
+
+                if ($consulta->cantidad < $c['cantidad']) {
+                    Alert::error('¡Error!', 'No hay suficiente stock para el producto: ' . $consulta->nombre)
+                        ->showConfirmButton('Aceptar', 'rgba(79, 59, 228, 1)');
+                    return back(); // Retorna a la página anterior
+                }
+
                 $total += $c['precio'] * $c['cantidad'];
 
-                $consulta = Producto::find($c['id']);
-                //dd($consulta);
                 if ($consulta->aplica_iva === 1) {
                     $impuesto += $c['precio'] * $c['cantidad'] * 0.16;
                 }
-
             }
         }
+
 
         $montoTotal = $impuesto + $total;
 
@@ -226,6 +253,7 @@ class PagoController extends Controller
         $pago->creado_id = $userId;
         $pago->fecha_pago = Carbon::now()->format('Y-m-d');
         $pago->impuestos = $impuesto;
+        $pago->user_id = Auth::user()->id;
         $pago->save();
 
         //registrar venta
@@ -277,39 +305,20 @@ class PagoController extends Controller
         $recibo->descuento = $request->descuento;
         $recibo->save();
 
-        //caja
-
-        /*    foreach ($metodos as $metodo) {
-                $transaccion = new Transaccion();
-                $transaccion->caja_id = $request->id_caja;
-                $transaccion->usuario_id = $userId;
-                $transaccion->tipo = 'venta';
-                $transaccion->metodo_pago = $metodo['metodo'];
-                if ($metodo['metodo'] == 'Divisa') {
-                    $transaccion->moneda = 'Dollar';
-                    $transaccion->monto_total_dolares = $metodo['monto_dollar'] ?? 0;
-                    $transaccion->monto_total_bolivares = 0;
-                } else {
-                    $transaccion->moneda = 'Bolívar';
-                    $transaccion->monto_total_bolivares = $metodo['monto_bs'] ?? 0;
-                    $transaccion->monto_total_dolares = 0;
-                }
-                $transaccion->fecha = Carbon::now();
-                $transaccion->save();
-            } */
 
         session()->forget('cart');
         $administradores = User::role('superAdmin')->get();
 
         foreach ($administradores as $admin) {
             try {
-                $admin->notify(new VentaGenerada($venta));
+                $admin->notify(new SaleNotification($venta));
             } catch (\Exception $e) {
                 // Maneja el error, por ejemplo, registrando el error o mostrando un mensaje
                 \Log::error('Error al enviar notificación: ' . $e->getMessage());
             }
         }
-        
+
+
         Alert::success('Exito!', 'Su orden ha sido generada exitosamente')->showConfirmButton('Aceptar', 'rgba(79, 59, 228, 1)');
 
         return redirect(route('pagos.index'));

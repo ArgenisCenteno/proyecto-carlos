@@ -198,3 +198,49 @@
     });
 
 </script>
+<script>
+$(document).ready(function() {
+    // Validar que el precio de compra no sea negativo
+    $('#precio_compra').on('input', function() {
+        var value = parseFloat($(this).val());
+        if (value < 0) {
+            $('#precio_compra_error').show(); // Muestra el mensaje de error
+            $(this).removeClass('is-valid').addClass('is-invalid'); // Establece clase de error
+        } else {
+            $('#precio_compra_error').hide(); // Oculta el mensaje de error
+            $(this).removeClass('is-invalid').addClass('is-valid'); // Establece clase válida
+        }
+    });
+
+    // Validar que el precio de venta no sea negativo y que no sea mayor que el precio de compra
+    $('#precio_venta').on('input', function() {
+        var value = parseFloat($(this).val());
+        var precioCompra = parseFloat($('#precio_compra').val());
+
+        // Validar que el precio de venta sea positivo y no esté vacío
+        if (value <= 0 || isNaN(value)) {
+            $('#precio_venta_error').show(); // Muestra el mensaje de error
+            $(this).removeClass('is-valid').addClass('is-invalid'); // Establece clase de error
+        } else if (value < precioCompra) {
+            // Si el precio de venta es menor que el precio de compra, muestra el mensaje de error
+            $('#precio_venta_error').show(); // Muestra el mensaje de error
+            $(this).removeClass('is-valid').addClass('is-invalid'); // Establece clase de error
+        } else {
+            $('#precio_venta_error').hide(); // Oculta el mensaje de error
+            $(this).removeClass('is-invalid').addClass('is-valid'); // Establece clase válida
+        }
+    });
+
+    // Validar que la cantidad sea mayor que 0 y no esté vacía
+    $('#cantidad').on('input', function() {
+        var value = parseInt($(this).val());
+        
+        // Verificar que la cantidad sea un número mayor que 0 y que no esté vacío
+        if (value < 1 || isNaN(value) || $(this).val().trim() === '') {
+            $(this).removeClass('is-valid').addClass('is-invalid'); // Establece clase de error
+        } else {
+            $(this).removeClass('is-invalid').addClass('is-valid'); // Establece clase válida
+        }
+    });
+});
+</script>

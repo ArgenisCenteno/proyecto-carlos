@@ -24,8 +24,13 @@ class VentaController extends Controller
      */
     public function index(Request $request)
     {
-        if ($request->ajax()) {
-            $data = Venta::with(['user', 'vendedor', 'pago'])->get();
+        if ($request->ajax()) {  
+            if(Auth::user()->hasRole('superAdmin') || (Auth::user()->hasRole('empleado') )){
+                $data = Venta::with(['user', 'vendedor', 'pago'])->get();
+            }else{
+                $data = Venta::with(['user', 'vendedor', 'pago'])->where('user_id', Auth::user()->id)->get();
+            }
+           
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('user', function($row) {
@@ -52,14 +57,21 @@ class VentaController extends Controller
                     $viewUrl = route('ventas.show', $row->id);
                     $deleteUrl = route('ventas.destroy', $row->id);
                     $pdfUrl = route('ventas.pdf', $row->id); // Asegúrate de que la ruta esté correcta
-                    return '<a href="'.$viewUrl.'" class="btn btn-info btn-sm">Detalles</a>
-                            <a href="'.$pdfUrl.'" class="btn btn-warning btn-sm" target="_blank">Recibo</a>
-                           <form action="'.$deleteUrl.'"  method="POST" style="display:inline; " class="btn-delete">
-                            '.csrf_field().'
-                            '.method_field('DELETE').'
-                            <button type="submit" class="btn btn-danger btn-sm " >Eliminar</button>
-                        </form>';
+                
+                    $actions = '<a href="'.$viewUrl.'" class="btn btn-info btn-sm">Detalles</a>
+                                <a href="'.$pdfUrl.'" class="btn btn-warning btn-sm" target="_blank">Recibo</a>';
+                
+                    if (Auth::user()->hasRole('superAdmin')) {
+                        $actions .= '<form action="'.$deleteUrl.'" method="POST" style="display:inline;" class="btn-delete">
+                                        '.csrf_field().'
+                                        '.method_field('DELETE').'
+                                        <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                                    </form>';
+                    }
+                
+                    return $actions;
                 })
+                
                 ->rawColumns(['status', 'actions'])
                 ->make(true);
         }

@@ -23,9 +23,9 @@
             <input type="text" class="form-control" id="monto_neto" value="{{ $pago->monto_neto }}" readonly>
         </div>
     </div>
-
+    @if(Auth::check() && Auth::user()->hasRole('superAdmin') || Auth::user()->hasRole('empleado'))
     <div class="row mb-3">
-       
+         
         <div class="col-md-6">
         <div class="mb-3">
             <label for="status" class="form-label">Estado</label>
@@ -39,9 +39,11 @@
         </div>
     </div>
 
-
-
     <div class="mb-3">
         <button type="submit" class="btn btn-primary">Aceptar</button>
     </div>
+@endif
+
+
+    
 </form>

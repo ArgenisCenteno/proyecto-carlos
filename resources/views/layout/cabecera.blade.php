@@ -24,12 +24,12 @@
 
         <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
           <i class="bi bi-bell"></i>
-          <span class="badge bg-primary badge-number">4</span>
+          <span class="badge bg-primary badge-number">{{ count(Auth::user()->notifications) }} </span>
         </a><!-- End Notification Icon -->
 
         <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
           <li class="dropdown-header">
-            Usted tiene cuatro notificaciones
+            Usted tiene {{ count(Auth::user()->notifications) }} notificaciones
             <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">Ver todas</span></a>
           </li>
           <li>
@@ -44,33 +44,34 @@
             <hr class="dropdown-divider">
           </li>
 
-          <li class="notification-item">
+          @foreach (Auth::user()->notifications as $notificacion)
+    <a href="{{ $notificacion->data['url'] ?? '#' }}" class="text-decoration-none text-dark">
+        <li class="notification-item">
             <i class="bi bi-check-circle text-success"></i>
             <div>
-              <h4>Sit rerum fuga</h4>
-              <p>Quae dolorem earum veritatis oditseno</p>
-              <p>2 hrs. ago</p>
+                <h4>{{ $notificacion->data['titulo'] ?? '' }}</h4> <!-- Campo 'titulo' de la notificación -->
+                <p>{{ $notificacion->data['mensaje'] ?? '' }}</p> <!-- Campo 'mensaje' de la notificación -->
+                <p>{{ $notificacion->created_at->diffForHumans() }}</p> <!-- Muestra el tiempo -->
             </div>
-          </li>
+        </li>
+    </a>
+    <li>
+        <hr class="dropdown-divider">
+    </li>
+@endforeach
+
 
           <li>
             <hr class="dropdown-divider">
           </li>
 
-          <li class="notification-item">
-            <i class="bi bi-info-circle text-primary"></i>
-            <div>
-              <h4>Dicta reprehenderit</h4>
-              <p>Quae dolorem earum veritatis oditseno</p>
-              <p>4 hrs. ago</p>
-            </div>
-          </li>
+
 
           <li>
             <hr class="dropdown-divider">
           </li>
           <li class="dropdown-footer">
-            <a href="#">Show all notifications</a>
+            <a href="{{route('notificaciones.index')}}">Ver todas las notificaciones</a>
           </li>
 
         </ul><!-- End Notification Dropdown Items -->
@@ -117,7 +118,7 @@
           <li class="nav-item">
             <a href="{{ route('logout') }}" class="nav-link"
               onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-             Salir
+              Salir
             </a>
             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
               @csrf

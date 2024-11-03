@@ -197,6 +197,9 @@
             margin-top: 6px;
             font-size: 13px;
         }
+        .bg-dark{
+            background-color: black  !important;
+        }
     </style>
 
     <!-- Scripts -->
@@ -277,15 +280,17 @@
 
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        @foreach($categorias as $categoria)
-                            <li class="nav-item">
-                                <a class="nav-link"
-                                    href="{{ route('productosPorCategoria', $categoria->id) }}">{{ $categoria->nombre }}</a>
-                            </li>
-                        @endforeach
-                    </ul>
-                </div>
+    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        @foreach($categorias as $categoria)
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('productosPorCategoria', $categoria->id) }}" style="color: black;">
+                    {{ $categoria->nombre }}
+                </a>
+            </li>
+        @endforeach
+    </ul>
+</div>
+
 
             </div>
         </nav>
@@ -360,10 +365,9 @@
                     <h4>¡Síguenos en nuestras redes!</h4>
 
                     <div class="social-links d-flex">
-                        <a href=""><i class="bi bi-twitter-x"></i></a>
+                       
                         <a href=""><i class="bi bi-facebook"></i></a>
                         <a href=""><i class="bi bi-instagram"></i></a>
-                        <a href=""><i class="bi bi-linkedin"></i></a>
                     </div>
                 </div>
 

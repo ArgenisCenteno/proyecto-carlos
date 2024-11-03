@@ -35,13 +35,21 @@ class NotificacionController extends Controller
     }
 
     // Marcar todas las notificaciones como leídas
+    public function markAsRead($id)
+    {
+        $notification = auth()->user()->notifications()->find($id);
+        if ($notification) {
+            $notification->markAsRead();
+        }
+        return redirect()->back()->with('success', 'Notificación marcada como leída.');
+    }
+    
     public function markAllAsRead()
     {
-        // Marcar todas las notificaciones como leídas
         auth()->user()->unreadNotifications->markAsRead();
-
         return redirect()->back()->with('success', 'Todas las notificaciones han sido marcadas como leídas.');
     }
+    
 
     // Eliminar una notificación específica
     public function destroy($id)

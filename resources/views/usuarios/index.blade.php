@@ -1,9 +1,9 @@
 @extends('layout.app')
 @section('content')
-<main class="app-main"> <!--begin::App Content Header-->
+<main id="main"  class="main"> <!--begin::App Content Header-->
 <div class="container-fluid">
     <div class="animated fadeIn">
-        <div class="row">
+        <div class="row">  
             <div class="col-lg-12">
                 <div class=" border-0 my-5">
                     <div class="px-2 row">

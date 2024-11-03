@@ -67,6 +67,11 @@ class ProductoController extends Controller
     {
         // Validación de los datos del formulario aquí si es necesario
 
+        if($request->cantidad < 1){
+            Alert::error('¡Error!', 'El Stock no puede ser negativo')->showConfirmButton('Aceptar', 'rgba(79, 59, 228, 1)');
+            return redirect()->back();
+        }
+
         $producto = Producto::create([
             'nombre' => $request->nombre,
             'descripcion' => $request->descripcion,
@@ -141,6 +146,10 @@ class ProductoController extends Controller
             'disponible' => 'required|boolean',
         ]);
 
+        if($request->cantidad < 1){
+            Alert::error('¡Error!', 'El Stock no puede ser negativo')->showConfirmButton('Aceptar', 'rgba(79, 59, 228, 1)');
+            return redirect()->back();
+        }
         // Buscar el producto por su ID
         $producto = Producto::findOrFail($id);
 

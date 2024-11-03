@@ -22,7 +22,7 @@
                             <div class="clearfix mb-1">
                             <span class="float-end"><i class="fas fa-plus"></i></span>
 
-                                <span class="float-start">  <a href="{{ route('detalles', $similar->slug) }}" class="btn btn-info">Detalles</a></span>
+                                <span class="float-end">  <a href="{{ route('detalles', $similar->slug) }}" class="btn btn-info">Detalles</a></span>
                             </div>
                         </div>
                     </div>

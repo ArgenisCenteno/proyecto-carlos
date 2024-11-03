@@ -9,7 +9,15 @@
       <span>Dashboard</span>
     </a>
   </li><!-- End Dashboard Nav -->
-
+  @if(Auth::check() && Auth::user()->hasRole('superAdmin') )
+  <li class="nav-item">
+    <a class="nav-link " href="{{route('usuarios.index')}}">
+      <i class="bi bi-grid"></i>
+      <span>Usuarios</span>
+    </a>
+  </li><!-- End Dashboard Nav -->
+  @endif
+  @if(Auth::check() && Auth::user()->hasRole('superAdmin') || Auth::user()->hasRole('empleado'))
   <li class="nav-item">
     <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
       <i class="bi bi-menu-button-wide"></i><span>Almacen</span><i class="bi bi-chevron-down ms-auto"></i>
@@ -30,15 +38,12 @@
           <i class="bi bi-circle"></i><span>Productos</span>
         </a>
       </li>
-      <li>
-        <a href="#">
-          <i class="bi bi-circle"></i><span>Promociones</span>
-        </a>
-      </li>
+    
+       
       
     </ul>
   </li><!-- End Components Nav -->
-
+@endif
   <li class="nav-item">
     <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
       <i class="bi bi-journal-text"></i><span>Ventas</span><i class="bi bi-chevron-down ms-auto"></i>
@@ -49,20 +54,35 @@
           <i class="bi bi-circle"></i><span>Mis pagos</span>
         </a>
       </li>
+      @if(Auth::check() && Auth::user()->hasRole('superAdmin') || Auth::user()->hasRole('empleado'))
       <li>
         <a href="{{route('ventas.index')}}">
           <i class="bi bi-circle"></i><span>Ventas</span>
         </a>
       </li>
+      @else
       <li>
-        <a href="forms-editors.html">
-          <i class="bi bi-circle"></i><span>Reportes</span>
+        <a href="{{route('ventas.index')}}">
+          <i class="bi bi-circle"></i><span>Mis compras</span>
         </a>
       </li>
+   @endif
+      <li>
+        <a href="{{route('carrito.show')}}">
+          <i class="bi bi-circle"></i><span>Carrito de Compras</span>
+        </a>
+      </li>
+    
+      <li>
+        <a href="{{url('/')}}">
+          <i class="bi bi-circle"></i><span>Principal</span>
+        </a>
+      </li>
+    
      
     </ul>
   </li><!-- End Forms Nav -->
-
+  @if(Auth::check() && Auth::user()->hasRole('superAdmin') || Auth::user()->hasRole('empleado'))
   <li class="nav-item">
     <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
       <i class="bi bi-layout-text-window-reverse"></i><span>Entradas</span><i class="bi bi-chevron-down ms-auto"></i>
@@ -81,27 +101,31 @@
       </li>
     </ul>
   </li><!-- End Tables Nav -->
-
+  @endif
   <li class="nav-item">
     <a class="nav-link collapsed" data-bs-target="#charts-nav" data-bs-toggle="collapse" href="#">
       <i class="bi bi-bar-chart"></i><span>Reportes</span><i class="bi bi-chevron-down ms-auto"></i>
     </a>
     <ul id="charts-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+    @if(Auth::check() && Auth::user()->hasRole('superAdmin') || Auth::user()->hasRole('empleado'))
       <li>
         <a href="{{route('productoss.export')}}">
           <i class="bi bi-circle"></i><span>Productos</span>
         </a>
       </li>
+      @endif
       <li>
         <a href="{{route('ventas.export')}}">
           <i class="bi bi-circle"></i><span>Ventas</span>
         </a>
       </li>
+      @if(Auth::check() && Auth::user()->hasRole('superAdmin') || Auth::user()->hasRole('empleado'))
       <li>
         <a href="{{route('compras.export')}}">
           <i class="bi bi-circle"></i><span>Compras</span>
         </a>
       </li>
+      @endif
     </ul>
   </li><!-- End Charts Nav -->
 

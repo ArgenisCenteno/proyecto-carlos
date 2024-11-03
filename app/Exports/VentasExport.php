@@ -3,6 +3,7 @@
 namespace App\Exports;
 
 use App\Models\Venta;
+use Auth;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithHeadings;
@@ -13,7 +14,12 @@ class VentasExport implements FromCollection, WithHeadings, WithMapping, ShouldA
     public function collection()
     {
         // Load related models with the ventas to reduce queries
-        return Venta::with(['user', 'vendedor', 'pago'])->get();
+        if(Auth::user()->hasRole('superAdmin') || (Auth::user()->hasRole('empleado') )){
+            $data = Venta::with(['user', 'vendedor', 'pago'])->get();
+        }else{
+            $data = Venta::with(['user', 'vendedor', 'pago'])->where('user_id', Auth::user()->id)->get();
+        }
+        return $data;
     }
 
     public function headings(): array
@@ -22,7 +28,7 @@ class VentasExport implements FromCollection, WithHeadings, WithMapping, ShouldA
         return [
             'ID',
             'Cliente',
-            'Vendedor',
+           
             'Monto Total',
             'Status',
             'Porcentaje Descuento',
@@ -38,7 +44,7 @@ class VentasExport implements FromCollection, WithHeadings, WithMapping, ShouldA
         return [
             $venta->id,
             $venta->user ? $venta->user->name : 'N/A', // Get the user name or 'N/A'
-            $venta->vendedor ? $venta->vendedor->name : 'N/A', // Get the vendedor name or 'N/A'
+          
             $venta->monto_total,
             $venta->status,
             $venta->porcentaje_descuento . '%' ?? 0,
