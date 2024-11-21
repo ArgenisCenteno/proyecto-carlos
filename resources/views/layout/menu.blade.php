@@ -60,6 +60,7 @@
           <i class="bi bi-circle"></i><span>Ventas</span>
         </a>
       </li>
+   
       @else
       <li>
         <a href="{{route('ventas.index')}}">
@@ -78,7 +79,11 @@
           <i class="bi bi-circle"></i><span>Principal</span>
         </a>
       </li>
-    
+      <li>
+        <a href="{{route('entregas.index')}}">
+          <i class="bi bi-circle"></i><span>Entregas</span>
+        </a>
+      </li>
      
     </ul>
   </li><!-- End Forms Nav -->

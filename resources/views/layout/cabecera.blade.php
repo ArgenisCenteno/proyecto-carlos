@@ -2,9 +2,9 @@
 <header id="header" class="header fixed-top d-flex align-items-center">
 
   <div class="d-flex align-items-center justify-content-between">
-    <a href="{{route('home')}}" class="logo d-flex align-items-center">
-
-      <span class="d-none d-lg-block">FRIONAX</span>
+    <a href="{{route('home')}}" class=" d-flex align-items-center">
+      <img src="{{asset('imagenes/logo.png')}}" width="50px" height="50px" alt="">
+      <span class="d-none d-lg-block ml-3"> <strong>FRIONAX</strong> </span>
     </a>
     <i class="bi bi-list toggle-sidebar-btn"></i>
   </div><!-- End Logo -->
@@ -45,20 +45,20 @@
           </li>
 
           @foreach (Auth::user()->notifications as $notificacion)
-    <a href="{{ $notificacion->data['url'] ?? '#' }}" class="text-decoration-none text-dark">
+        <a href="{{ $notificacion->data['url'] ?? '#' }}" class="text-decoration-none text-dark">
         <li class="notification-item">
-            <i class="bi bi-check-circle text-success"></i>
-            <div>
-                <h4>{{ $notificacion->data['titulo'] ?? '' }}</h4> <!-- Campo 'titulo' de la notificación -->
-                <p>{{ $notificacion->data['mensaje'] ?? '' }}</p> <!-- Campo 'mensaje' de la notificación -->
-                <p>{{ $notificacion->created_at->diffForHumans() }}</p> <!-- Muestra el tiempo -->
-            </div>
+          <i class="bi bi-check-circle text-success"></i>
+          <div>
+          <h4>{{ $notificacion->data['titulo'] ?? '' }}</h4> <!-- Campo 'titulo' de la notificación -->
+          <p>{{ $notificacion->data['mensaje'] ?? '' }}</p> <!-- Campo 'mensaje' de la notificación -->
+          <p>{{ $notificacion->created_at->diffForHumans() }}</p> <!-- Muestra el tiempo -->
+          </div>
         </li>
-    </a>
-    <li>
+        </a>
+        <li>
         <hr class="dropdown-divider">
-    </li>
-@endforeach
+        </li>
+      @endforeach
 
 
           <li>

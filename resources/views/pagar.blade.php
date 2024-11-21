@@ -30,11 +30,12 @@
                                             <option value="" disabled selected>Seleccione un método de pago</option>
                                             <option value="Pago movil">Pago móvil</option>
                                             <option value="Transferencia">Transferencia</option>
+                                            <option value="Pagar en tienda">Pagar en tienda</option>
                                         </select>
                                     </div>
                                     <div class="col-md-6">
                                         <label for="banco_origen" class="form-label"><strong>Banco de Origen</strong></label>
-                                        <select class="form-select" id="banco_origen" name="banco_origen" required>
+                                        <select class="form-select" id="banco_origen" name="banco_origen" >
                                             <option value="" disabled selected>Selecciona tu banco de origen</option>
                                             <option value="Banesco">Banesco</option>
                                             <option value="Banco de Venezuela">Banco de Venezuela</option>
@@ -50,7 +51,7 @@
                                 <div class="row mb-3">
                                     <div class="col-md-6">
                                         <label for="banco_destino" class="form-label"><strong>Banco de Destino</strong></label>
-                                        <select class="form-select" id="banco_destino" name="banco_destino" required>
+                                        <select class="form-select" id="banco_destino" name="banco_destino" >
                                             <option value="" disabled selected>Selecciona tu banco de destino</option>
                                             <option value="Banesco">Banesco</option>
                                             <option value="Banco de Venezuela">Banco de Venezuela</option>
@@ -61,14 +62,14 @@
                                         <label for="numero_referencia" class="form-label"><strong>Número de Referencia</strong></label>
                                         <input type="text" class="form-control" id="numero_referencia"
                                             name="numero_referencia" maxlength="8" placeholder="55555555"
-                                            pattern="\d{8}" title="Debe tener 8 dígitos" required>
+                                            pattern="\d{8}" title="Debe tener 8 dígitos" >
                                     </div>
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="comprobante" class="form-label"> <strong>Recibo de Transferencia / Pago móvil</strong> </label>
                                     <input type="file" class="form-control" id="comprobante" name="comprobante"
-                                        required>
+                                        >
                                 </div>
 
                                 <div class="table-responsive mb-4">
@@ -98,19 +99,31 @@
                                 </div>
 
                                 <div class="d-flex justify-content-between align-items-center">
-                                    <p class="fw-bold mb-0">Total:</p>
+                                    <p class="fw-bold mb-0">Total en dólares:</p>
                                     <p class="text-muted mb-0">{{$total}}</p>
                                 </div>
                                 <div class="d-flex justify-content-between align-items-center">
-                                    <p class="fw-bold mb-0">Impuesto:</p>
+                                    <p class="fw-bold mb-0">Total en bolívares:</p>
+                                    <p class="text-muted mb-0">{{$total * $dollar}}</p>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <p class="fw-bold mb-0">Impuestos en dólares:</p>
                                     <p class="text-muted mb-0">{{$impuesto}}</p>
                                 </div>
                                 <div class="d-flex justify-content-between align-items-center">
-                                    <p class="fw-bold mb-0">Monto a Pagar:</p>
-                                    <p class="text-muted mb-0">{{$montoTotal}}</p>
+                                    <p class="fw-bold mb-0">Impuestos en bolívares:</p>
+                                    <p class="text-muted mb-0">{{$impuesto * $dollar}}</p>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <p class="fw-bold mb-0">Monto a Pagar en dólares:</p>
+                                    <p class="text-muted mb-0">{{$montoTotal }}</p>
                                     <input type="hidden" name="montoTotal" value="{{$montoTotal}}">
                                 </div>
-
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <p class="fw-bold mb-0">Monto a Pagar en bolívares:</p>
+                                    <p class="text-muted mb-0">{{$montoTotal * $dollar }}</p>
+                                    <input type="hidden" name="montoTotal2" value="{{$montoTotal * $dollar}}">
+                                </div>
                                 <button type="submit" class="btn btn-dark w-100 mt-4">Realizar Pago</button>
                             </form>
                         </div>

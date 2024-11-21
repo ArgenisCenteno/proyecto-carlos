@@ -18,10 +18,12 @@
                     <h4 class="mt-3 bold"> <strong>Subcategoría:</strong> <small> 
                     {{$producto->subcategoria->nombre}}     </small></h4>
                     <div class="">
-                        <h2 class="mb-0 ">
-                            {{$producto->precio_venta}}
+                        <h2 class="mb-0 text-success">
+                           USD {{$producto->precio_venta}}
                         </h2>
-
+                        <h3 class="mb-0 text-secondary">
+                           BS {{$producto->precio_venta * $dollar}}
+                        </h3>
                     </div>
                     <div class="mt-4" style="margin-top: 160px !important;">
                         <form action="{{ route('carrito.agregar', $producto->id) }}" method="POST">

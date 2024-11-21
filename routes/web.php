@@ -92,6 +92,7 @@ Route::get('/producto/{id}', [VentaController::class, 'obtenerProducto'])->name(
 
 /* TASAS, MONEDAS E IMPUESTOS */
 Route::resource('tasas', App\Http\Controllers\TasasController::class);
+Route::resource('entregas', App\Http\Controllers\EntregaController::class);
 
 /* COMPRAS */
 Route::resource('compras', App\Http\Controllers\CompraController::class);

@@ -23,10 +23,13 @@
                     <hr class="my-4">
 
                     <div class="d-flex justify-content-between mb-5">
-                        <h5 class="text-uppercase">Monto Total</h5>
-                        <h5 id="subtotal"> {{ number_format($total + 5, 2) }} BS</h5> <!-- Assuming standard shipping fee -->
+                        <h5 class="text-uppercase">Monto Total en Dólares</h5>
+                        <h5 id="subtotal"> {{ number_format($total , 2) }} USD</h5> <!-- Assuming standard shipping fee -->
                     </div>
-
+                    <div class="d-flex justify-content-between mb-5">
+                        <h5 class="text-uppercase">Monto Total en Bolívares</h5>
+                        <h5 id="subtotal2"> {{ number_format($total * $dollar, 2) }} BS</h5> <!-- Assuming standard shipping fee -->
+                    </div>
                     <a href="{{ route('pagar') }}" class="btn btn-dark btn-block btn-lg" style=" width: 100%">
                         Realizar pago
                     </a>
@@ -126,15 +129,16 @@
     function updateSubtotal(index, price) {
 
         // Obtener cantidad
+        var dollar = @json($dollar);
         var quantity = document.getElementById('quantity-' + index).value;
 
         // Calcular el nuevo subtotal
-        var subtotal = quantity * price;
+        var subtotal = quantity * price * dollar;
         console.log(subtotal)
         // changeQuantity(index, quantity, product, price)
         // Actualizar la visualización del subtotal
-        document.getElementById('subtotal' ).innerText = subtotal.toFixed(2);
-
+        document.getElementById('subtotal' ).innerText = subtotal.toFixed(2) + ' USD';
+        document.getElementById('subtotal2' ).innerText = subtotal.toFixed(2) + ' BS';
     }
 
     function changeQuantity(index, change, product, price) {

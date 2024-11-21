@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\DetalleVenta;
+use App\Models\Entrega;
 use App\Models\Pago;
 use App\Models\Producto;
 use App\Models\Recibo;
@@ -147,6 +148,31 @@ class PagoController extends Controller
             $pago->user->notify(new \App\Notifications\PagoStatusUpdated($pago, $request->status));
         }
 
+        if($previousStatus == 'Pendiente' && ($request->status == 'Pagado' )){
+            //Entrega
+            $entrega = new Entrega();
+            $entrega->venta_id = $venta->id;
+            $entrega->user_id =  $pago->user->id;
+            $entrega->aprobado_por =  Auth::user()->id;
+            $entrega->costo = 0;
+            $entrega->status = 'Pendiente';
+            $entrega->save();
+                 
+            if($entrega){
+                $administradores = User::role('superAdmin')->get();
+
+                foreach ($administradores as $admin) {
+                    try {
+                        $admin->notify(new \App\Notifications\NuevaEntrega($entrega, 'Pendiente'));
+                    } catch (\Exception $e) {
+                        // Maneja el error, por ejemplo, registrando el error o mostrando un mensaje
+                        \Log::error('Error al enviar notificación: ' . $e->getMessage());
+                    }
+                }
+                
+            }
+        }   
+
         Alert::success('¡Éxito!', 'Pago actualizado exitosamente')->showConfirmButton('Aceptar', 'rgba(79, 59, 228, 1)');
         return redirect(route('pagos.index'));
     }
@@ -228,11 +254,11 @@ class PagoController extends Controller
             [
                 "metodo" => strtoupper($metodo),
                 "cantidad" => $montoTotal,
-                "banco_origen" => strtoupper($bancoOrigen), // Para asegurarte de que los bancos estén en mayúsculas
-                "banco_destino" => strtoupper($bancoDestino),
-                "numero_referencia" => $numeroReferencia,
-                "monto_bs" => $montoTotal,
-                "monto_dollar" => $montoDollar,
+                "banco_origen" => strtoupper($bancoOrigen) ?? "", // Para asegurarte de que los bancos estén en mayúsculas
+                "banco_destino" => strtoupper($bancoDestino) ?? "",
+                "numero_referencia" => $numeroReferencia ?? "",
+                "monto_bs" => $montoTotal ?? "",
+                "monto_dollar" => $montoDollar ?? "",
             ]
         ];
 

@@ -269,61 +269,61 @@
 
 <!-- Services Section -->
 <section id="services" class="services section light-background mt-4 mb-4">
-
   <!-- Section Title -->
   <div class="container section-title" data-aos="fade-up">
     <h2>Servicios</h2>
-    <p>REFRI RESPUESTOS FRIONAX VIP 2019 C.A, somos una empresa de venta de productos de refrigeración. Contamos con más
-      de 20 años de experencia el rubro, ofreciendo productos de calidad y el mejor servicio posible a nuestros
-      consumidores.</p>
+    <p>REFRI RESPUESTOS FRIONAX VIP 2019 C.A, somos una empresa de venta de productos de refrigeración. Contamos con más de 20 años de experiencia en el rubro, ofreciendo productos de calidad y el mejor servicio posible a nuestros consumidores.</p>
   </div><!-- End Section Title -->
 
   <div class="container">
-
     <div class="row gy-4">
-
-      <div class="col-xl-3 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="100">
-        <div class="service-item position-relative">
-          <div class="icon"><i class="bi bi-gear icon"></i></div>
+      <!-- Service Item 1 -->
+      <div class="col-lg-6 col-md-12 d-flex" data-aos="fade-up" data-aos-delay="100">
+        <div class="service-item position-relative text-center w-100">
+          <div class="icon mb-3">
+            <img src="{{ asset('imagenes/1.jpg') }}" alt="Instalación de Sistemas" style="width: 150px; height: 150px;">
+          </div>
           <h4><a href="" class="stretched-link">Instalación de Sistemas</a></h4>
-          <p>Instalación profesional de sistemas de refrigeración industrial y comercial adaptados a tus necesidades.
-          </p>
+          <p>¡Tu hogar siempre fresco! Expertos en instalación de sistemas de refrigeración. ¡Cotiza ahora y disfruta de un ambiente climatizado!</p>
         </div>
       </div><!-- End Service Item -->
 
-      <div class="col-xl-3 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="200">
-        <div class="service-item position-relative">
-          <div class="icon"><i class="bi bi-wrench icon"></i></div>
+      <!-- Service Item 2 -->
+      <div class="col-lg-6 col-md-12 d-flex" data-aos="fade-up" data-aos-delay="200">
+        <div class="service-item position-relative text-center w-100">
+          <div class="icon mb-3">
+            <img src="{{ asset('imagenes/2.jpg') }}" alt="Mantenimiento Preventivo" style="width: 150px; height: 150px;">
+          </div>
           <h4><a href="" class="stretched-link">Mantenimiento Preventivo</a></h4>
-          <p>Servicio de mantenimiento preventivo para asegurar el funcionamiento óptimo de tus equipos de
-            refrigeración.</p>
+          <p>¡Respira tranquilo con nuestro mantenimiento preventivo! Ahorra energía, reduce ruidos molestos y disfruta de un ambiente fresco siempre. ¡Llámanos!</p>
         </div>
       </div><!-- End Service Item -->
 
-      <div class="col-xl-3 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="300">
-        <div class="service-item position-relative">
-          <div class="icon"><i class="bi bi-speedometer2 icon"></i></div>
+      <!-- Service Item 3 -->
+      <div class="col-lg-6 col-md-12 d-flex" data-aos="fade-up" data-aos-delay="300">
+        <div class="service-item position-relative text-center w-100">
+          <div class="icon mb-3">
+            <img src="{{ asset('imagenes/3.jpg') }}" alt="Diagnóstico y Reparación" style="width: 150px; height: 150px;">
+          </div>
           <h4><a href="" class="stretched-link">Diagnóstico y Reparación</a></h4>
-          <p>Detectamos y solucionamos fallas en sistemas de refrigeración, garantizando una rápida respuesta técnica.
-          </p>
+          <p>¡Tu equipo de refrigeración en las mejores manos! Diagnóstico preciso y reparaciones eficientes. ¡Contáctanos!</p>
         </div>
       </div><!-- End Service Item -->
 
-      <div class="col-xl-3 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="400">
-        <div class="service-item position-relative">
-          <div class="icon"><i class="bi bi-thermometer-sun icon"></i></div>
+      <!-- Service Item 4 -->
+      <div class="col-lg-6 col-md-12 d-flex" data-aos="fade-up" data-aos-delay="400">
+        <div class="service-item position-relative text-center w-100">
+          <div class="icon mb-3">
+            <img src="{{ asset('imagenes/4.jpg') }}" alt="Optimización Energética" style="width: 150px; height: 150px;">
+          </div>
           <h4><a href="" class="stretched-link">Optimización Energética</a></h4>
-          <p>Implementación de soluciones que mejoran la eficiencia energética de tus sistemas, ahorrando costos y
-            energía.</p>
+          <p>¡Ahorra energía y cuida el medio ambiente! Optimizamos tu sistema de refrigeración para un mayor rendimiento y menor consumo. ¡Contáctanos!</p>
         </div>
       </div><!-- End Service Item -->
-
     </div>
-
-
   </div>
-
 </section><!-- /Services Section -->
+
 
 <!-- producto Section -->
 <section id="productos" class="producto section m-4">

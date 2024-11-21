@@ -197,8 +197,9 @@
             margin-top: 6px;
             font-size: 13px;
         }
-        .bg-dark{
-            background-color: black  !important;
+
+        .bg-dark {
+            background-color: black !important;
         }
     </style>
 
@@ -217,7 +218,8 @@
                     aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <a href="{{ url('/') }}"> <strong class="navbar-brand text-white">FRIONAX</strong></a>
+                <img src="{{asset('imagenes/logo.png')}}" width="50px" alt="">
+                <a href="{{ url('/') }}"> <strong class="ml-3 navbar-brand text-white">FRIONAX</strong></a>
 
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -234,13 +236,14 @@
                         <li class="nav-item">
                             <a class="nav-link text-white" href="#">Ubicaciones</a>
                         </li>
-                         
-       <div class="nav-item">
-       <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#searchModal">
-            <i class="material-icons">search</i>
-        </button>
-       </div>
-     
+
+                        <div class="nav-item">
+                            <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal"
+                                data-bs-target="#searchModal">
+                                <i class="material-icons">search</i>
+                            </button>
+                        </div>
+
                     </ul>
                     <div class="d-flex align-items-center">
                         <a class="text-reset me-3" href="#">
@@ -280,16 +283,17 @@
 
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        @foreach($categorias as $categoria)
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('productosPorCategoria', $categoria->id) }}" style="color: black;">
-                    {{ $categoria->nombre }}
-                </a>
-            </li>
-        @endforeach
-    </ul>
-</div>
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        @foreach($categorias as $categoria)
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('productosPorCategoria', $categoria->id) }}"
+                                    style="color: black;">
+                                    {{ $categoria->nombre }}
+                                </a>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
 
 
             </div>
@@ -299,27 +303,28 @@
         <main class="">
             @yield('content')
         </main>
-    </div> 
-     <!-- Modal de búsqueda -->
-     <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
+    </div>
+    <!-- Modal de búsqueda -->
+    <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <form action="{{route('buscar')}}" method="POST">
-            @csrf
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="searchModalLabel">Buscar Producto</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                @csrf
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="searchModalLabel">Buscar Producto</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="text" class="form-control" name="query" id="searchProduct"
+                            placeholder="Escriba el nombre del producto">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-primary">Buscar</button>
+                    </div>
                 </div>
-                <div class="modal-body">
-                    <input type="text" class="form-control" name="query" id="searchProduct" placeholder="Escriba el nombre del producto">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    <button type="submit" class="btn btn-primary" >Buscar</button>
-                </div>
-            </div>
             </form>
-           
+
         </div>
     </div>
 
@@ -365,7 +370,7 @@
                     <h4>¡Síguenos en nuestras redes!</h4>
 
                     <div class="social-links d-flex">
-                       
+
                         <a href=""><i class="bi bi-facebook"></i></a>
                         <a href=""><i class="bi bi-instagram"></i></a>
                     </div>
@@ -388,16 +393,17 @@
 @include('layout.datatables_css')
 @include('layout.datatables_js')
 <script>
-        function buscarProducto() {
-            const producto = document.getElementById('searchProduct').value;
-            if (producto) {
-                // Aquí iría la lógica para buscar el producto (puede ser una solicitud AJAX).
-                alert('Buscando el producto: ' + producto);
-            } else {
-                alert('Por favor, ingrese un nombre de producto.');
-            }
+    function buscarProducto() {
+        const producto = document.getElementById('searchProduct').value;
+        if (producto) {
+            // Aquí iría la lógica para buscar el producto (puede ser una solicitud AJAX).
+            alert('Buscando el producto: ' + producto);
+        } else {
+            alert('Por favor, ingrese un nombre de producto.');
         }
-    </script>
+    }
+</script>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 </html>

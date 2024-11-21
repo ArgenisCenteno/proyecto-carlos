@@ -53,6 +53,33 @@ class CarritoController extends Controller
     {
 
         $producto = Producto::where('slug', $id)->first();
+        function isConnected()
+        {
+            $connected = @fsockopen("www.google.com", 80); // Intenta conectar al puerto 80 de Google
+            if ($connected) {
+                fclose($connected);
+                return true; // Hay conexión
+            }
+            return false; // No hay conexión
+        }
+
+        if (isConnected()) {
+            $response = file_get_contents("https://ve.dolarapi.com/v1/dolares/oficial");
+          
+        } else {
+             
+            $response = false;
+        }
+ 
+
+
+        // dd();
+        if ($response) {
+            $dato = json_decode($response);
+            $dollar = $dato->promedio;
+        } else {
+            $dollar = 44.30;
+        }
         $similares = Producto::where('sub_categoria_id', $producto->sub_categoria_id)
             ->where('id', '!=', $producto->id)
             ->take(4)->get();
@@ -61,7 +88,7 @@ class CarritoController extends Controller
 
 
 
-        return view('detalles')->with('producto', $producto)->with('similares', $similares);
+        return view('detalles')->with('producto', $producto)->with('similares', $similares)->with('dollar', $dollar);
     }
 
     public function productosPorCategoria($categoriaId)
@@ -165,7 +192,7 @@ class CarritoController extends Controller
                 $consulta = Producto::find($c['id']);
                 //dd($consulta);
                 if ($consulta->aplica_iva === 1) {
-                    $impuesto += $c['precio'] * $c['cantidad'] * 0.16;
+                    $impuesto += ($c['precio'] * $c['cantidad']) * 0.16;
                 }
 
             }
@@ -173,7 +200,35 @@ class CarritoController extends Controller
 
         $montoTotal = $impuesto + $total;
 
-        return view('pagar', compact('carrito', 'total', 'montoTotal', 'impuesto'));
+        function isConnected()
+        {
+            $connected = @fsockopen("www.google.com", 80); // Intenta conectar al puerto 80 de Google
+            if ($connected) {
+                fclose($connected);
+                return true; // Hay conexión
+            }
+            return false; // No hay conexión
+        }
+
+        if (isConnected()) {
+            $response = file_get_contents("https://ve.dolarapi.com/v1/dolares/oficial");
+          
+        } else {
+             
+            $response = false;
+        }
+ 
+
+
+        // dd();
+        if ($response) {
+            $dato = json_decode($response);
+            $dollar = $dato->promedio;
+        } else {
+            $dollar = 44.30;
+        }
+
+        return view('pagar', compact('carrito', 'total', 'montoTotal', 'impuesto', 'dollar'));
     }
 
 
@@ -200,9 +255,34 @@ class CarritoController extends Controller
                 $total += $c['precio'] * $c['cantidad'];
             }
         }
+        function isConnected()
+        {
+            $connected = @fsockopen("www.google.com", 80); // Intenta conectar al puerto 80 de Google
+            if ($connected) {
+                fclose($connected);
+                return true; // Hay conexión
+            }
+            return false; // No hay conexión
+        }
+
+        if (isConnected()) {
+            $response = file_get_contents("https://ve.dolarapi.com/v1/dolares/oficial");
+          
+        } else {
+             
+            $response = false;
+        }
+ 
 
 
-        return view('carrito', compact('cart', 'total'));
+        // dd();
+        if ($response) {
+            $dato = json_decode($response);
+            $dollar = $dato->promedio;
+        } else {
+            $dollar = 44.30;
+        }
+        return view('carrito', compact('cart', 'dollar','total'));
     }
 
     /**
